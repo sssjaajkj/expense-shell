@@ -34,7 +34,7 @@ if [ $USERID -ne 0 ]
     fi
 
 dnf instll nginx -y &>>$LOGFILE
-VALIDATE $? "Installing ngimx"
+VALIDATE $? "Installing nginx"
 
 systemctl enable nginx &>>$LOGFILE
 VALIDATE $? "enable nginx"
@@ -54,3 +54,5 @@ unzip /tmp/frontend.zip
 VALIDATE $? "Extracting frontend code"
 
 vim /etc/nginx/default.d/expense.conf
+#check your repo and path
+cp
