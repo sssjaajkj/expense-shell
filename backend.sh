@@ -42,13 +42,13 @@ if [ $USERID -ne 0 ]
     dnf module enable nodejs:20 -y &>>$LOGFILE
     VALIDATE $? "module enable nodejs:20 Version"
 
-    dnf install nodejs -y &>>LOGFILE
-    VALIDATE $? "install nodejs"
+    dnf install nodejs -y &>>$LOGFILE
+    VALIDATE $? "installing  nodejs"
 
     # useradd expense
     # VALIDATE $? "Creating USERADDING expense"
 
-    id expense  &>>$LOGFILE
+    id expense &>>$LOGFILE
     if [ $? -ne 0 ]
     then
     useradd expense &>>$LOGFILE
@@ -61,11 +61,11 @@ if [ $USERID -ne 0 ]
     mkdir -p /app &>>$LOGFILE  
     VALIDATE $? "Creating app directory"
 
-    curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+    curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE 
     VALIDATE $? "Downloading backend code"
 
     cd /app 
-    unzip /tmp/backend.zip
+    unzip /tmp/backend.zip &>>$LOGFILE 
     VALIDATE $? "Extracted backed code"
 
     npm install -y  &>>$LOGFILE
