@@ -68,7 +68,7 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
     unzip /tmp/backend.zip
     VALIDATE $? "Extracted backed code"
 
-    npm install &>>$LOGFIL
+    npm install -y  &>>$LOGFIL
     VALIDATE $? "installing nodejs dependencies"
 
     #backend.service
