@@ -68,8 +68,8 @@ if [ $USERID -ne 0 ]
      npm install -y &>>$LOGFILE
         VALIDATE $? "installing nodejs dependencies"
 
-#     #backend.service
-#     cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
+#   #backend.service
+    cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
 
 #     VALIDATE $? "Copied backed service"
 
