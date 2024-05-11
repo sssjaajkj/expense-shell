@@ -39,6 +39,18 @@ if [ $USERID -ne 0 ]
     systemctl start mysqld &>>LOGFILE
     VALIDATE $? "start  MYSQL Server"
 
-    mysql_secure_installation --set-root-pass ExpenseApp@1 &>>LOGFILE
-    VALIDATE $? "Setting up root password"   
-    
+#     mysql_secure_installation --set-root-pass ExpenseApp@1 &>>LOGFILE
+#     VALIDATE $? "Setting up root password"   
+
+        #Below code will be useful for idempotemt nature
+        mysql -h db.aws79s.online -uroot -pExpenseApp@11 -e 'SHOW DATABASES;' &>>$LOGFILE
+
+        if [$? -ne 0 ]
+        then
+
+         mysql_secure_installation --set-root-pass ExpenseApp@1 
+        VALIDATE $? "MySQL Root password Setup"
+        else
+         echo -e "Mysql root password is already setup --- $Y Skipping $N"
+         fi
+         
