@@ -33,7 +33,7 @@ if [ $USERID -ne 0 ]
             echo "you are super user."
     fi
 
-dnf instll nginx -y &>>$LOGFILE
+dnf install nginx -y  &>>$LOGFILE
 VALIDATE $? "Installing nginx"
 
 systemctl enable nginx &>>$LOGFILE
