@@ -72,8 +72,8 @@ if [ $USERID -ne 0 ]
     cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
       VALIDATE $? "Copied backed service"
 
-#     systemctl daemon-reload &>>$LOGFILE
-#     VALIDATE $? "daemon-reload"
+       systemctl daemon-reload &>>$LOGFILE
+        VALIDATE $? "daemon-reload"
 
 #    #Start the service.
 #     systemctl start backend  &>>$LOGFILE
