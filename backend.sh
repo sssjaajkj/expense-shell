@@ -63,10 +63,10 @@ if [ $USERID -ne 0 ]
     echo "Downloaded"
     cd /app
     rm -rf /app/*
-    unzip /tmp/backend
+    unzip /tmp/backend &>>$LOGFILE
     VALIDATE $? "Extracted backed code"
 
-    npm install -y  &>>$LOGFILE
+    npm install -y &>>$LOGFILE
     VALIDATE $? "installing nodejs dependencies"
 
     #backend.service
