@@ -67,7 +67,7 @@ if [ $USERID -ne 0 ]
     echo "Downloaded"
     cd /app
     echo " app"
-    unzip /tmp/backend.zip  &>>$LOGFILE 
+    unzip /tmp/backend.zip
     echo " Unzip"
     VALIDATE $? "Extracted backed code"
 
@@ -82,8 +82,8 @@ if [ $USERID -ne 0 ]
     systemctl daemon-reload &>>$LOGFILE
     VALIDATE $? "daemon-reload"
 
-    systemctl start backend &>>$LOGFILE
-    VALIDATE $? "daemon-reload"
+    systemctl start backend  &>>$LOGFILE
+    VALIDATE $? "start backend"
     
     systemctl enable backend &>>$LOGFILE
     VALIDATE $? "enable backend"
