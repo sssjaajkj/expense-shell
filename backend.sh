@@ -76,8 +76,8 @@ if [ $USERID -ne 0 ]
         VALIDATE $? "daemon-reload"
 
 #    #Start the service.
-#     systemctl start backend  &>>$LOGFILE
-#     VALIDATE $? "start backend"
+    systemctl start backend  &>>$LOGFILE
+      VALIDATE $? "start backend"
     
 #     systemctl enable backend &>>$LOGFILE
 #     VALIDATE $? "enable backend"
