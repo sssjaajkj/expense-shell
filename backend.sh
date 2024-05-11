@@ -32,23 +32,27 @@ if [ $USERID -ne 0 ]
             echo "you are super user."
     fi
 
-    
-#     # id expense &>>$LOGFILE
-#     # if [ $? -ne 0 ]
-#     # then
-#     #     useradd expense &>>$LOGFILE
-#     # else
-#     #     echo -e "Expense user already created...$Y SKIPPING $N"
-#     # fi
+    dnf module disable nodejs -y
+    VALIDATE $? "module disable nodejs"
 
-#     # id expense &>>$LOGFILE
-#     # if [ $? -ne 0 ]
-#     # then
-#     #     useradd expense &>>$LOGFILE
-#     #    VALIDATE $? "creating expense user"
-#     # else
-#     #     echo -e "Expense user already created ... $Y SKIPPING $N"
-#     # fi
+    dnf module enable nodejs:20 -y
+    VALIDATE $? "module enable nodejs:20"
+
+
+    dnf install nodejs -y
+    
+    VALIDATE $? " install nodejs "
+
+   
+
+    # id expense &>>$LOGFILE
+    # if [ $? -ne 0 ]
+    # then
+    #     useradd expense &>>$LOGFILE
+    #    VALIDATE $? "creating expense user"
+    # else
+    #     echo -e "Expense user already created ... $Y SKIPPING $N"
+    # fi
     
 
 #     mkdir -p /app &>>$LOGFILE  
