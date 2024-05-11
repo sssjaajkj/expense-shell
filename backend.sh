@@ -88,8 +88,8 @@ if [ $USERID -ne 0 ]
      VALIDATE $? "Installing Mysql client"
     
 
-#     mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
-#     VALIDATE $? "Schema loading "
+    mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+   VALIDATE $? "Schema loading "
 
 #     systemctl restart backend &>>$LOGFILE
 #     VALIDATE $? "Restart backend "
