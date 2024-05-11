@@ -44,15 +44,22 @@ if [ $USERID -ne 0 ]
     # useradd expense
     # VALIDATE $? "Creating USERADDING expense"
 
-    id expense &>>$LOGFILE
+        id expense &>>$LOGFILE
     if [ $? -ne 0 ]
     then
         useradd expense &>>$LOGFILE
-
-        VALIDATE $? "creating expense user"
     else
-        echo -e "Expense user already created ... $Y SKIPPING $N"
+        echo -e "Expense user already created...$Y SKIPPING $N"
     fi
+
+    # id expense &>>$LOGFILE
+    # if [ $? -ne 0 ]
+    # then
+    #     useradd expense &>>$LOGFILE
+    #    VALIDATE $? "creating expense user"
+    # else
+    #     echo -e "Expense user already created ... $Y SKIPPING $N"
+    # fi
     
 
     mkdir -p /app &>>$LOGFILE  
