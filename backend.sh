@@ -39,13 +39,13 @@ if [ $USERID -ne 0 ]
     dnf install nodejs -y &>>LOGFILE
     VALIDATE $? "install nodejs"
 
-    useradd expense
-    VALIDATE $? "Creating USERADDING expense"
+    # useradd expense
+    # VALIDATE $? "Creating USERADDING expense"
 
-    id expense
+    id expense -y &>>$LOGFILE
     if [ $? -ne 0 ]
     then
-    useradd expense
+    useradd expense &>>$LOGFILE
     VALIDATE $? "creating expense user"
     else
     echo -e "Expense user already created ... $Y SKIPPING $N"
