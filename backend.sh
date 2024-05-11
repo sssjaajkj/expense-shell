@@ -9,8 +9,8 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-echo "Please enter DB password"
-read  mysql_root_password
+# echo "Please enter DB password"
+# read  mysql_root_password
 
 VALIDATE ()
  {
