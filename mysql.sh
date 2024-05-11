@@ -11,7 +11,7 @@ Y="\e[33m"
 N="\e[0m"
 
 echo "Please enter DB password"
-read -s mysql-root_password
+read -s mysql_root_password
 
 VALIDATE () {
         if [ $1 -ne 0 ]
@@ -46,12 +46,12 @@ if [ $USERID -ne 0 ]
 #     VALIDATE $? "Setting up root password"   
 
         #Below code will be useful for idempotemt nature
-        mysql -h db.aws79s.online -uroot -p${mysql-root_password} -e 'SHOW DATABASES;' &>>$LOGFILE
+        mysql -h db.aws79s.online -uroot -p${mysql_root_password} -e 'SHOW DATABASES;' &>>$LOGFILE
 
         if [$? -ne 0 ]
         then
 
-         mysql_secure_installation --set-root-pass ${mysql-root_password}
+         mysql_secure_installation --set-root-pass ${mysql-root_password} &>>$LOGFILE
         VALIDATE $? "MySQL Root password Setup"
         else
          echo -e "Mysql root password is already setup --- $Y Skipping $N"
