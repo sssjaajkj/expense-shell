@@ -36,10 +36,10 @@ if [ $USERID -ne 0 ]
             echo "you are super user."
     fi
 
-    dnf module disable nodejs -y &>>LOGFILE
+    dnf module disable nodejs -y &>>$LOGFILE
     VALIDATE $? "Disabling default nodejs"
 
-    dnf module enable nodejs:20 -y &>>LOGFILE
+    dnf module enable nodejs:20 -y &>>$LOGFILE
     VALIDATE $? "module enable nodejs:20 Version"
 
     dnf install nodejs -y &>>LOGFILE
@@ -68,7 +68,7 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
     unzip /tmp/backend.zip
     VALIDATE $? "Extracted backed code"
 
-    npm install -y  &>>$LOGFIL
+    npm install -y  &>>$LOGFILE
     VALIDATE $? "installing nodejs dependencies"
 
     #backend.service
@@ -76,20 +76,25 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
 
     VALIDATE $? "Copied backed service"
 
-    systemctl daemon-reload &>>$LOGFIL
-    systemctl start backend &>>$LOGFIL
-    systemctl enable backend &>>$LOGFIL
+    systemctl daemon-reload &>>$LOGFILE
+    VALIDATE $? "daemon-reload"
 
-    VALIDATE $? "Starting and enabling backend"
+    systemctl start backend &>>$LOGFILE
+    VALIDATE $? "daemon-reload"
     
-    dnf install mysql -y &>>$LOGFIL
+    systemctl enable backend &>>$LOGFILE
+    VALIDATE $? "enable backend"
+
+    
+    
+    dnf install mysql -y &>>$LOGFILE
     VALIDATE $? "Installing Mysql client"
     
 
-    mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFIL
+    mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
     VALIDATE $? "Schema loading "
 
-    systemctl restart backend &>>$LOGFIL
+    systemctl restart backend &>>$LOGFILE
     VALIDATE $? "Restart backend "
 
 
