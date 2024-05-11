@@ -79,7 +79,7 @@ if [ $USERID -ne 0 ]
 
    #Start the service.
     systemctl start backend  &>>$LOGFILE
-    VALIDATE $? "start backend"
+    VALIDATE $? "starting backend"
     
     systemctl enable backend &>>$LOGFILE
     VALIDATE $? "enable backend"
