@@ -70,7 +70,7 @@ if [ $USERID -ne 0 ]
     VALIDATE $? "installing nodejs dependencies"
 
     #backend.service
-    cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backed.service
+    cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
 
     VALIDATE $? "Copied backed service"
 
@@ -79,7 +79,7 @@ if [ $USERID -ne 0 ]
 
    #Start the service.
     systemctl start backend  &>>$LOGFILE
-    VALIDATE $? "starting backend"
+    VALIDATE $? "start backend"
     
     systemctl enable backend &>>$LOGFILE
     VALIDATE $? "enable backend"
