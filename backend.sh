@@ -59,11 +59,11 @@ if [ $USERID -ne 0 ]
     curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE 
     VALIDATE $? "Downloading backend code"
     
-#     echo "Downloaded"
-#     cd /app
-#     rm -rf /app/*
-#     unzip /tmp/backend &>>$LOGFILE
-#     VALIDATE $? "Extracted backed code"
+    echo "Downloaded"
+    cd /app
+    rm -rf /app/*
+    unzip /tmp/backend &>>$LOGFILE
+    VALIDATE $? "Extracted backed code"
 
 #     npm install -y &>>$LOGFILE
 #     VALIDATE $? "installing nodejs dependencies"
