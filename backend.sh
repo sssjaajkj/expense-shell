@@ -9,103 +9,42 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-echo "Please enter DB password"
-read  mysql_root_password
+echo "Please enter DB password:"
+read -s mysql_root_password
 
-VALIDATE () {
-        if [ $1 -ne 0 ]
-            then
-             echo -e "$2 ... $R Failure... $N"
-                exit  1
-          else
-          echo -e "$2 ...  $G Success... $N"
-            fi   
-            }
+dnf module disable nodejs -y &>>$LOGFILE
+dnf module enable nodejs:20 -y &>>$LOGFILE
+dnf install nodejs -y &>>$LOGFILE
 
+id expense &>>$LOGFILE
+if [ $? -ne 0 ]
+then
+    useradd expense &>>$LOGFILE
+else
+    echo -e "Expense user already created...$Y SKIPPING $N"
+fi
 
-if [ $USERID -ne 0 ] 
- then 
-    echo "plz run this script with root access."
-    exit 1 # manulaly exit if error comes 
+mkdir -p /app &>>$LOGFILE
 
-    else 
-            echo "you are super user."
-    fi
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 
-    dnf module disable nodejs -y &>>$LOGFILE
-    VALIDATE $? "Disabling default nodejs"
+cd /app
+rm -rf /app/*
+unzip /tmp/backend.zip &>>$LOGFILE
 
-    dnf module enable nodejs:20 -y &>>$LOGFILE
-    VALIDATE $? "Enable nodejs:20 Version"
+npm install &>>$LOGFILE
 
-    dnf install nodejs -y &>>$LOGFILE
-    VALIDATE $? "installing  nodejs"
+#check your repo and path
+cp /home/ec2-user/expense-shell-1/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 
-    # useradd expense
-    # VALIDATE $? "Creating USERADDING expense"
+systemctl daemon-reload &>>$LOGFILE
 
-        id expense &>>$LOGFILE
-    if [ $? -ne 0 ]
-    then
-        useradd expense &>>$LOGFILE
-    else
-        echo -e "Expense user already created...$Y SKIPPING $N"
-    fi
+systemctl start backend &>>$LOGFILE
 
-    # id expense &>>$LOGFILE
-    # if [ $? -ne 0 ]
-    # then
-    #     useradd expense &>>$LOGFILE
-    #    VALIDATE $? "creating expense user"
-    # else
-    #     echo -e "Expense user already created ... $Y SKIPPING $N"
-    # fi
-    
+systemctl enable backend &>>$LOGFILE
 
-    mkdir -p /app &>>$LOGFILE  
-    VALIDATE $? "Creating app directory"
+dnf install mysql -y &>>$LOGFILE
 
-    curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE 
-    VALIDATE $? "Downloading backend code"
-    
-    echo "Downloaded"
-    cd /app
-    rm -rf /app/*
-    unzip /tmp/backend &>>$LOGFILE
-    VALIDATE $? "Extracted backed code"
+mysql -h db.daws78s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 
-    npm install -y &>>$LOGFILE
-    VALIDATE $? "installing nodejs dependencies"
-
-    #backend.service
-    cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
-
-    VALIDATE $? "Copied backed service"
-
-    systemctl daemon-reload &>>$LOGFILE
-    VALIDATE $? "daemon-reload"
-
-   #Start the service.
-    systemctl start backend  &>>$LOGFILE
-    VALIDATE $? "start backend"
-    
-    systemctl enable backend &>>$LOGFILE
-    VALIDATE $? "enable backend"
-
-    
-    
-    dnf install mysql -y &>>$LOGFILE
-    VALIDATE $? "Installing Mysql client"
-    
-
-    mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
-    VALIDATE $? "Schema loading "
-
-    systemctl restart backend &>>$LOGFILE
-    VALIDATE $? "Restart backend "
-
-
-
-
-    
-
+systemctl restart backend &>>$LOGFILE
