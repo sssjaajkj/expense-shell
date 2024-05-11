@@ -84,8 +84,8 @@ if [ $USERID -ne 0 ]
 
     
     
-#     dnf install mysql -y &>>$LOGFILE
-#     VALIDATE $? "Installing Mysql client"
+      dnf install mysql -y &>>$LOGFILE
+     VALIDATE $? "Installing Mysql client"
     
 
 #     mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
