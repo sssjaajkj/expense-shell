@@ -42,7 +42,7 @@ if [ $USERID -ne 0 ]
     # useradd expense
     # VALIDATE $? "Creating USERADDING expense"
 
-    id expense -y &>>$LOGFILE
+    id expense  &>>$LOGFILE
     if [ $? -ne 0 ]
     then
     useradd expense &>>$LOGFILE
