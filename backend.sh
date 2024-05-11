@@ -10,6 +10,12 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+
+
+
+echo "Please enter DB password"
+read -s mysql_root_password
+
 VALIDATE () {
         if [ $1 -ne 0 ]
             then
@@ -52,7 +58,7 @@ if [ $USERID -ne 0 ]
     fi
     
 
-    mkdir -p /app # if not creating other leave
+    mkdir -p /app &>>$LOGFILE # if not creating other leave
     VALIDATE $? "Creating app directory"
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
@@ -62,11 +68,31 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
     unzip /tmp/backend.zip
     VALIDATE $? "Extracted backed code"
 
-    npm install
+    npm install &>>$LOGFIL
     VALIDATE $? "installing nodejs dependencies"
 
     #backend.service
+    cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backed.service
+
+    VALIDATE $? "Copied backed service"
+
+    systemctl daemon-reload &>>$LOGFIL
+    systemctl start backend &>>$LOGFIL
+    systemctl enable backend &>>$LOGFIL
+
+    VALIDATE $? "Starting and enabling backend"
     
+    dnf install mysql -y &>>$LOGFIL
+    VALIDATE $? "Installing Mysql client"
+    
+
+    mysql -h db.aws79s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFIL
+    VALIDATE $? "Schema loading "
+
+    systemctl restart backend &>>$LOGFIL
+    VALIDATE $? "Restart backend "
+
+
 
 
     
