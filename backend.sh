@@ -65,8 +65,8 @@ if [ $USERID -ne 0 ]
     unzip /tmp/backend &>>$LOGFILE
     VALIDATE $? "Extracted backed code"
 
-#     npm install -y &>>$LOGFILE
-#     VALIDATE $? "installing nodejs dependencies"
+     npm install -y &>>$LOGFILE
+        VALIDATE $? "installing nodejs dependencies"
 
 #     #backend.service
 #     cp /home/ec2-user/expense-shell/backend.service  /etc/systemd/system/backend.service
