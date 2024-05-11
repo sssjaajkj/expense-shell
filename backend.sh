@@ -61,8 +61,7 @@ if [ $USERID -ne 0 ]
     mkdir -p /app &>>$LOGFILE  
     VALIDATE $? "Creating app directory"
 
-    curl -o /tmp/backend.zip
-     https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+    curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
     VALIDATE $? "Downloading backend code"
 
     cd /app 
